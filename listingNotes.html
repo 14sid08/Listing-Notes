@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <style>
+        
+        .container {
+            width: 50%;
+            min-height: 200px;
+            border: 1px solid rgb(42, 118, 165);
+            background-color: #8c2aa545;
+            margin: 20px auto;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin: auto;
+            width: 100%;
+            text-align: center;
+            margin: 20px 0px;
+        }
+
+        input,
+        button {
+            margin: auto;
+            display: block;
+        }
+
+        input {
+            width: 50%;
+            border: 0;
+            border: 1px solid rgb(42, 79, 165);
+            height: 28px;
+            border-radius: 8px;
+        }
+
+        button {
+            border: 0;
+            width: 25%;
+            height: 39px;
+            background-color: rgb(42, 159, 165);
+            border-radius: 6px;
+        }
+
+        .notes,
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .form-button {
+            display: inline;
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group notes">
+            Total Notes: <span id="count">0</span>
+        </div>
+        <div class="form-group">
+            <input type="text" id="list-notes" />
+        </div>
+        <div class="form-group">
+            <button onclick="onSubmitHandler()">Submit</button>
+        </div>
+    </div>
+
+    <div class="container" id="list">
+        <h1>LIST OF NOTES</h1>
+    </div>
+
+    <script>
+        let count=0;
+        function onSubmitHandler() {
+            count++;
+            let input = document.querySelector("#list-notes").value;
+            document.querySelector("#count").innerHTML = count;
+
+            let parentElement = document.createElement("div");
+          
+            parentElement.classList.add("form-group");
+         
+            parentElement.classList.add("notes");
+
+            let paragraphElement = document.createElement("p");
+            let paragraphNode = document.createTextNode(count+" . "+input);
+            paragraphElement.addEventListener('blur',onBlurHandler);
+           
+            paragraphElement.appendChild(paragraphNode);
+           
+            parentElement.appendChild(paragraphElement);
+
+            let deleteElement = document.createElement("button");
+           
+            deleteElement.classList.add("form-button");
+            deleteElement.addEventListener('click',onDeleteHandler);
+            let deleteNode = document.createTextNode("Delete");
+           
+            deleteElement.appendChild(deleteNode);
+           
+            parentElement.appendChild(deleteElement);
+
+            
+            let editElement = document.createElement("button");
+            editElement.addEventListener('click',onEditHandler);
+           
+            editElement.classList.add("form-button");
+            let editNode = document.createTextNode("Edit");
+            
+            editElement.appendChild(editNode);
+            
+            parentElement.appendChild(editElement);
+
+            let globalList = document.querySelector("#list");
+            globalList.appendChild(parentElement);
+            
+
+
+        }
+
+        function onDeleteHandler(event){
+            count--;
+            document.querySelector("#count").innerHTML = count;
+            event.target.parentElement.remove();
+        }
+
+        function onEditHandler(event){
+            event.target.parentElement.firstChild.setAttribute("contenteditable",true);
+        }
+
+        function onBlurHandler(event){
+            event.target.parentElement.firstChild.setAttribute("contenteditable",false);
+        }
+    </script>
+</body>
+
+</html>
